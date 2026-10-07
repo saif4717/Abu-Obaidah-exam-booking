@@ -57,12 +57,14 @@
 
         <aside class="panel booking-panel" id="bookingPanel">
           <div class="booking-heading"><div class="form-icon">＋</div><div><span class="section-kicker">احجز موعداً</span><h2>حجز اختبار قصير</h2></div></div>
-          <p class="form-intro">أدخل اسمك واختر الشعبة واليوم المناسب. يظهر الحجز للجميع بعد تأكيده.</p>
+          <p class="form-intro">أدخل اسمك واختر الشعبة واليوم المناسب، ثم استخدم رمز المدرسة لتأكيد الحجز.</p>
           <form id="bookingForm">
             <label for="teacherName">اسم المعلم <b>*</b></label><input id="teacherName" name="teacherName" type="text" maxlength="80" placeholder="اكتب اسم المعلم" autocomplete="name" required />
             <label for="classSection">الصف والشعبة <b>*</b></label><select id="classSection" name="classSection" required><option value="">اختر الصف والشعبة</option><optgroup label="الصف العاشر" id="grade10"></optgroup><optgroup label="الصف الحادي عشر" id="grade11"></optgroup><optgroup label="الصف الثاني عشر" id="grade12"></optgroup></select>
             <label for="examDate">تاريخ الاختبار <b>*</b></label><input id="examDate" name="examDate" type="date" required />
             <div class="field-hint" id="dateHint">اختر يوماً أخضر في التقويم. الجمعة والسبت إجازة أسبوعية.</div>
+            <label for="bookingAccessCode">رمز الحجز المدرسي <b>*</b></label><input id="bookingAccessCode" name="bookingAccessCode" type="password" minlength="12" maxlength="64" placeholder="أدخل الرمز الذي وصل من الإدارة" autocomplete="off" required />
+            <div class="field-hint">الرمز مؤقت، وتغيّره الإدارة دورياً.</div>
             <button class="primary-button" type="submit" id="submitBooking">تأكيد الحجز <span>✓</span></button>
           </form>
           <div class="simple-note"><span>ⓘ</span><p>كل شعبة لها حجز واحد فقط في اليوم. إذا احتجت إلى إلغاء الحجز، تواصل مع الإدارة.</p></div>
@@ -75,7 +77,19 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <dialog id="adminDialog" class="dialog"><form method="dialog" class="dialog-close-form"><button class="close-dialog" aria-label="إغلاق">×</button></form><div class="dialog-icon">⌑</div><h2 id="adminTitle">دخول الإدارة</h2><p id="adminDescription">سجّل الدخول بحساب الإدارة لإلغاء حجز عند الحاجة.</p><form id="adminLoginForm" class="admin-form"><label for="adminEmail">البريد الإلكتروني</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@school.om" /><label for="adminPassword">كلمة المرور</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="••••••••" /><button class="primary-button" type="submit">دخول الإدارة</button></form><div id="adminMessage" class="admin-message"></div><button id="adminLogout" type="button" class="secondary-button hidden">تسجيل الخروج من الإدارة</button><div id="adminBookings" class="admin-bookings"></div></dialog>
+  <dialog id="adminDialog" class="dialog">
+    <form method="dialog" class="dialog-close-form"><button class="close-dialog" aria-label="إغلاق">×</button></form>
+    <div class="dialog-icon">⌑</div><h2 id="adminTitle">دخول الإدارة</h2><p id="adminDescription">سجّل الدخول بحساب الإدارة لإلغاء حجز عند الحاجة.</p>
+    <form id="adminLoginForm" class="admin-form"><label for="adminEmail">البريد الإلكتروني</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@school.om" /><label for="adminPassword">كلمة المرور</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="••••••••" /><button class="primary-button" type="submit">دخول الإدارة</button></form>
+    <div id="adminMessage" class="admin-message"></div>
+    <div id="accessCodePanel" class="hidden">
+      <h3>رمز دخول المعلمين</h3><p class="admin-message">اضبط رمزاً جديداً من ١٢ إلى ٦٤ حرفاً إنجليزياً أو رقماً، صالحاً لمدة ١٤ يوماً. يُخزّن النظام نسخة مشفّرة منه فقط.</p>
+      <div id="accessCodeStatus" class="admin-message"></div>
+      <form id="accessCodeForm" class="admin-form"><label for="newBookingAccessCode">الرمز الجديد</label><input id="newBookingAccessCode" type="password" minlength="12" maxlength="64" pattern="[A-Za-z0-9]{12,64}" autocomplete="new-password" placeholder="١٢ حرفاً إنجليزياً أو رقماً على الأقل" required /><button class="secondary-button" type="submit">تفعيل الرمز لمدة ١٤ يوماً</button></form>
+    </div>
+    <button id="adminLogout" type="button" class="secondary-button hidden">تسجيل الخروج من الإدارة</button>
+    <div id="adminBookings" class="admin-bookings"></div>
+  </dialog>
   <script>
 (() => {
   const $ = (sel) => document.querySelector(sel);
@@ -216,13 +230,23 @@
     const button = $('#submitBooking'); button.disabled = true; button.textContent = 'جارٍ تأكيد الحجز…';
     try {
       if (supabase) {
-        const {data,error} = await supabase.from('bookings').insert({teacher_name:teacher,class_section:cls,exam_date:date}).select('id,teacher_name,class_section,exam_date,created_at').single();
+        const accessCode = $('#bookingAccessCode').value.trim();
+        if (!/^[A-Za-z0-9]{12,64}$/.test(accessCode)) throw new Error('يجب أن يتكون رمز الحجز من ١٢ إلى ٦٤ حرفاً إنجليزياً أو رقماً.');
+        const {data,error} = await supabase.rpc('create_booking_with_code',{
+          p_teacher_name:teacher,
+          p_class_section:cls,
+          p_exam_date:date,
+          p_access_code:accessCode
+        });
         if (error) {
           if (error.code === '23505') throw new Error(`الشعبة ${cls} محجوزة بالفعل في هذا اليوم.`);
           if (error.code === '23514') throw new Error('لا يمكن الحجز في يوم الجمعة أو السبت.');
+          if (error.code === 'P0001') throw new Error('رمز الدخول غير صحيح أو انتهت صلاحيته. تواصل مع الإدارة للحصول على الرمز الحالي.');
           throw error;
         }
-        bookings = [...bookings,data];
+        const newBooking = Array.isArray(data) ? data[0] : data;
+        if (!newBooking) throw new Error('لم يصل تأكيد الحجز من قاعدة البيانات. حاول مرة أخرى.');
+        bookings = [...bookings,newBooking];
       } else {
         bookings.push({id:crypto.randomUUID(),teacher_name:teacher,class_section:cls,exam_date:date,created_at:new Date().toISOString()}); saveLocal();
       }
@@ -270,16 +294,47 @@
     if(!adminSession){await supabase.auth.signOut();$('#adminMessage').textContent='هذا الحساب غير مخوّل للإدارة. تواصل مع مسؤول النظام.';$('#adminMessage').className='admin-message error';return;}
     updateAdminDialog(); notify('تم تسجيل الدخول للإدارة.');
   });
+  $('#accessCodeForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!supabase || !adminSession) return notify('سجّل الدخول بحساب الإدارة أولاً.',true);
+    const codeInput = $('#newBookingAccessCode');
+    const newCode = codeInput.value.trim();
+    if (!/^[A-Za-z0-9]{12,64}$/.test(newCode)) return notify('اختر رمزاً من ١٢ إلى ٦٤ حرفاً إنجليزياً أو رقماً.',true);
+    const button = event.submitter; button.disabled = true; button.textContent = 'جارٍ تحديث الرمز…';
+    try {
+      const {error} = await supabase.rpc('set_booking_access_code',{p_new_code:newCode});
+      if (error) throw error;
+      codeInput.value = '';
+      await refreshAccessCodeStatus();
+      notify('تم تغيير رمز المعلمين. أرسله عبر قناة المدرسة الداخلية فقط.');
+    } catch (error) {
+      console.error(error);
+      notify(error.code === '42501' ? 'هذا الحساب غير مخوّل لتغيير الرمز.' : 'تعذر تغيير الرمز. تحقق من الاتصال وحاول مجدداً.',true);
+    } finally { button.disabled = false; button.textContent = 'تفعيل الرمز لمدة ١٤ يوماً'; }
+  });
   $('#adminLogout').addEventListener('click', async () => { if (supabase) await supabase.auth.signOut(); adminSession=false; updateAdminDialog(); });
   const updateAdminDialog = () => {
     $('#adminLoginForm').classList.toggle('hidden',adminSession);
+    $('#accessCodePanel').classList.toggle('hidden',!adminSession);
     $('#adminLogout').classList.toggle('hidden',!adminSession);
     $('#adminTitle').textContent=adminSession?'إدارة الحجوزات':'دخول الإدارة';
     $('#adminDescription').textContent=adminSession?'يمكنك إلغاء الحجز عند طلب المعلم.':'سجّل الدخول بحساب الإدارة لإلغاء حجز عند الحاجة.';
     $('#adminMessage').textContent=adminSession?'تم التحقق من حساب الإدارة.':'البريد وكلمة المرور خاصان بحساب الإدارة.';
     $('#adminMessage').className='admin-message'+(adminSession?' success':'');
     renderAdminBookings();
+    if (adminSession) refreshAccessCodeStatus();
   };
+  async function refreshAccessCodeStatus() {
+    if (!supabase || !adminSession) return;
+    const status = $('#accessCodeStatus');
+    const {data,error} = await supabase.rpc('get_booking_access_code_status');
+    if (error) { status.textContent='تعذر قراءة حالة الرمز.'; return; }
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row?.expires_at) { status.textContent='لم يتم ضبط رمز دخول بعد.'; return; }
+    const expiry = new Date(row.expires_at);
+    const dateText = new Intl.DateTimeFormat('ar-OM',{dateStyle:'medium',timeStyle:'short'}).format(expiry);
+    status.textContent = row.is_active ? `الرمز الحالي صالح حتى ${dateText}.` : `انتهت صلاحية الرمز في ${dateText}. اضبط رمزاً جديداً.`;
+  }
   function renderAdminBookings() {
     const host=$('#adminBookings'); if (!adminSession) {host.innerHTML='';return;}
     const next=bookings.filter(b=>b.exam_date>=todayISO()).sort((a,b)=>a.exam_date.localeCompare(b.exam_date));
