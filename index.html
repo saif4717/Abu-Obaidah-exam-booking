@@ -59,7 +59,7 @@
           <div class="booking-heading"><div class="form-icon">＋</div><div><span class="section-kicker">احجز موعداً</span><h2>حجز اختبار قصير</h2></div></div>
           <p class="form-intro">أدخل اسمك واختر الشعبة واليوم المناسب، ثم استخدم رمز المدرسة لتأكيد الحجز.</p>
           <form id="bookingForm">
-            <label for="teacherName">اسم المعلم <b>*</b></label><input id="teacherName" name="teacherName" type="text" maxlength="80" placeholder="اكتب اسم المعلم" autocomplete="name" required />
+            <label for="subjectName">اسم المادة <b>*</b></label><select id="subjectName" name="subjectName" required><option value="">اختر المادة</option><option>التربية الإسلامية</option><option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>الرياضيات</option><option>الكيمياء</option><option>الفيزياء</option><option>الأحياء</option><option>الدراسات</option><option>الرياضة</option><option>الحاسوب</option><option>التربية الفنية</option><option>الموسيقى</option></select><label for="teacherName">اسم المعلم <b>*</b></label><input id="teacherName" name="teacherName" type="text" maxlength="80" placeholder="اكتب اسم المعلم" autocomplete="name" required />
             <label for="classSection">الصف والشعبة <b>*</b></label><select id="classSection" name="classSection" required><option value="">اختر الصف والشعبة</option><optgroup label="الصف العاشر" id="grade10"></optgroup><optgroup label="الصف الحادي عشر" id="grade11"></optgroup><optgroup label="الصف الثاني عشر" id="grade12"></optgroup></select>
             <label for="examDate">تاريخ الاختبار <b>*</b></label><input id="examDate" name="examDate" type="date" required />
             <div class="field-hint" id="dateHint">اختر يوماً أخضر في التقويم. الجمعة والسبت إجازة أسبوعية.</div>
@@ -98,7 +98,7 @@
   const fmtDate = (iso, opts = { day: 'numeric', month: 'long', year: 'numeric' }) => new Intl.DateTimeFormat('ar-OM', opts).format(new Date(`${iso}T12:00:00`));
   const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
   const classesByGrade = { 10: 11, 11: 12, 12: 11 };
-  const classSelect = $('#classSection');
+  const classSelect = $('#classSection'); const subjectSelect = $('#subjectName');
   let bookings = [];
   let monthCursor = new Date(); monthCursor.setDate(1);
   let selectedISO = '';
@@ -188,7 +188,7 @@
     const dayItems = allForDay(selectedISO);
     const visibleItems = classSelect.value ? dayItems.filter(b => b.class_section === classSelect.value) : dayItems;
     const details = visibleItems.length
-      ? `<ul class="selected-day-list">${visibleItems.map(b => `<li class="selected-day-item"><strong>${escapeHTML(b.class_section)}</strong><span>الأستاذ ${escapeHTML(b.teacher_name)}</span></li>`).join('')}</ul>`
+      ? `<ul class="selected-day-list">${visibleItems.map(b => `<li class="selected-day-item"><strong>${escapeHTML(b.class_section)}</strong><span>${escapeHTML(b.subject_name || 'غير محدد')} · الأستاذ ${escapeHTML(b.teacher_name)}</span></li>`).join('')}</ul>`
       : `<small>${classSelect.value ? `الشعبة ${escapeHTML(classSelect.value)} متاحة في هذا اليوم.` : 'لا توجد حجوزات في هذا اليوم.'}</small>`;
     host.classList.remove('hidden');
     host.innerHTML = `<div class="selected-day-head"><span class="selected-icon">▦</span><div><strong>${fmtDate(selectedISO)}</strong><small>${visibleItems.length ? 'تفاصيل الحجوزات في اليوم المحدد' : 'حالة اليوم المحدد'}</small></div></div>${details}`;
@@ -200,11 +200,11 @@
     const config = window.APP_CONFIG || {};
     if (config.supabaseUrl && config.supabaseAnonKey && window.supabase?.createClient) {
       supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-      const { data, error } = await supabase.from('bookings').select('id,teacher_name,class_section,exam_date,created_at').order('exam_date');
+      const { data, error } = await supabase.from('bookings').select('id,subject_name,teacher_name,class_section,exam_date,created_at').order('exam_date');
       if (error) { modeStatus('تعذر الاتصال بقاعدة البيانات',false); notify('تعذر تحميل الحجوزات. تحقق من إعداد قاعدة البيانات.',true); console.error(error); return; }
       bookings = data || []; modeStatus('متصل · الحجوزات مشتركة',true);
       supabase.channel('booking-changes').on('postgres_changes',{event:'*',schema:'public',table:'bookings'}, async () => {
-        const result = await supabase.from('bookings').select('id,teacher_name,class_section,exam_date,created_at').order('exam_date');
+        const result = await supabase.from('bookings').select('id,subject_name,teacher_name,class_section,exam_date,created_at').order('exam_date');
         if (!result.error) { bookings = result.data || []; refreshView(); }
       }).subscribe();
       const {data:{session}} = await supabase.auth.getSession(); adminSession = Boolean(session) && await verifyAdmin();
@@ -223,8 +223,8 @@
   };
   $('#bookingForm').addEventListener('submit', async (event) => {
     event.preventDefault();
-    const teacher = $('#teacherName').value.trim(), cls = classSelect.value, date = $('#examDate').value;
-    if (!teacher || !cls || !date) return notify('أكمل الاسم والشعبة والتاريخ أولاً.',true);
+    const subject = subjectSelect.value, teacher = $('#teacherName').value.trim(), cls = classSelect.value, date = $('#examDate').value;
+    if (!subject || !teacher || !cls || !date) return notify('اختر المادة وأكمل الاسم والشعبة والتاريخ أولاً.',true);
     if (isPast(date) || isoIsHoliday(date)) return notify('هذا التاريخ غير متاح للحجز.',true);
     if (bookedClassOn(date,cls)) return notify(`الشعبة ${cls} محجوزة بالفعل في هذا اليوم.`,true);
     const button = $('#submitBooking'); button.disabled = true; button.textContent = 'جارٍ تأكيد الحجز…';
@@ -232,8 +232,8 @@
       if (supabase) {
         const accessCode = $('#bookingAccessCode').value.trim();
         if (!/^[A-Za-z0-9]{12,64}$/.test(accessCode)) throw new Error('يجب أن يتكون رمز الحجز من ١٢ إلى ٦٤ حرفاً إنجليزياً أو رقماً.');
-        const {data,error} = await supabase.rpc('create_booking_with_code',{
-          p_teacher_name:teacher,
+        const {data,error} = await supabase.rpc('create_booking_with_subject_and_code',{
+          p_subject_name:subject,p_teacher_name:teacher,
           p_class_section:cls,
           p_exam_date:date,
           p_access_code:accessCode
@@ -248,7 +248,7 @@
         if (!newBooking) throw new Error('لم يصل تأكيد الحجز من قاعدة البيانات. حاول مرة أخرى.');
         bookings = [...bookings,newBooking];
       } else {
-        bookings.push({id:crypto.randomUUID(),teacher_name:teacher,class_section:cls,exam_date:date,created_at:new Date().toISOString()}); saveLocal();
+        bookings.push({id:crypto.randomUUID(),subject_name:subject,teacher_name:teacher,class_section:cls,exam_date:date,created_at:new Date().toISOString()}); saveLocal();
       }
       refreshView(); $('#bookingForm').reset(); selectedISO = date; $('#examDate').value = date; renderSelectedDay();
       notify('تم تأكيد الحجز بنجاح.');
@@ -338,7 +338,7 @@
   function renderAdminBookings() {
     const host=$('#adminBookings'); if (!adminSession) {host.innerHTML='';return;}
     const next=bookings.filter(b=>b.exam_date>=todayISO()).sort((a,b)=>a.exam_date.localeCompare(b.exam_date));
-    host.innerHTML=next.length?next.map(b=>`<div class="admin-row"><span>${fmtDate(b.exam_date,{day:'numeric',month:'short'})} · ${escapeHTML(b.class_section)} · ${escapeHTML(b.teacher_name)}</span><button class="cancel-button" data-id="${escapeHTML(b.id)}" type="button">إلغاء</button></div>`).join(''):'<div class="empty-list">لا توجد حجوزات قادمة</div>';
+    host.innerHTML=next.length?next.map(b=>`<div class="admin-row"><span>${fmtDate(b.exam_date,{day:'numeric',month:'short'})} · ${escapeHTML(b.class_section)} · ${escapeHTML(b.subject_name || 'غير محدد')} · ${escapeHTML(b.teacher_name)}</span><button class="cancel-button" data-id="${escapeHTML(b.id)}" type="button">إلغاء</button></div>`).join(''):'<div class="empty-list">لا توجد حجوزات قادمة</div>';
     host.querySelectorAll('.cancel-button').forEach(btn=>btn.addEventListener('click',()=>cancelBooking(btn.dataset.id)));
   }
   async function cancelBooking(id) {
