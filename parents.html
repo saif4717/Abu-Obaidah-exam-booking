@@ -486,7 +486,7 @@
   });
 
 
-  classSelect.querySelectorAll('optgroup').forEach(group => { const parentGroup=document.createElement('optgroup'); parentGroup.label=group.label; [...group.options].forEach(option=>parentGroup.append(option.cloneNode(true))); parentClassSelect.append(parentGroup); });
+  classSelect.querySelectorAll('optgroup').forEach(group => { const parentGroup=document.createElement('optgroup'); parentGroup.label=group.label; group.querySelectorAll('option').forEach(option=>parentGroup.append(option.cloneNode(true))); parentClassSelect.append(parentGroup); });
 
   const isoIsHoliday = (iso) => { const day = new Date(`${iso}T12:00:00`).getDay(); return day === 5 || day === 6; };
   const isPast = (iso) => iso < todayISO();
