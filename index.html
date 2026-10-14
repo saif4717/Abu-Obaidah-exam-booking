@@ -411,7 +411,7 @@
       <section class="content-grid">
         <div class="main-column">
           <section class="panel calendar-panel" id="calendarPanel">
-            <div class="parent-filter"><label for="parentGrade">اختر صف ابنك</label><select id="parentGrade"><option value="">اختر الصف</option><option value="10">الصف العاشر</option><option value="11">الصف الحادي عشر</option><option value="12">الصف الثاني عشر</option></select><small>ستظهر مواعيد الاختبارات المحددة لهذا الصف.</small></div><div class="panel-heading"><div><span class="section-kicker">مواعيد الاختبارات</span><h2>تقويم الحجوزات</h2></div><div class="month-controls"><button id="prevMonth" class="icon-button light" type="button" aria-label="الشهر السابق">‹</button><strong id="monthTitle"></strong><button id="nextMonth" class="icon-button light" type="button" aria-label="الشهر التالي">›</button></div></div>
+            <div class="parent-filter"><label for="parentClass">اختر صف وشعبة ابنك</label><select id="parentClass"><option value="">اختر الصف والشعبة</option></select><small>ستظهر مواعيد الاختبارات المحددة لهذه الشعبة فقط.</small></div><div class="panel-heading"><div><span class="section-kicker">مواعيد الاختبارات</span><h2>تقويم الحجوزات</h2></div><div class="month-controls"><button id="prevMonth" class="icon-button light" type="button" aria-label="الشهر السابق">‹</button><strong id="monthTitle"></strong><button id="nextMonth" class="icon-button light" type="button" aria-label="الشهر التالي">›</button></div></div>
             <div class="calendar" id="calendar" role="grid" aria-label="تقويم الاختبارات"></div>
             <div class="legend"><span><i class="dot dot-open"></i> متاح للحجز</span><span><i class="dot dot-booked"></i> محجوز</span><span><i class="dot dot-holiday"></i> إجازة أسبوعية</span></div>
             <div class="selected-day hidden" id="selectedDay"><span class="selected-icon">▦</span><div><strong>اختر يوماً من التقويم</strong><small>سيظهر هنا ملخص حجوزات اليوم</small></div></div>
@@ -466,7 +466,7 @@
   const classesByGrade = { 10: 11, 11: 12, 12: 11 };
   const classSelect = $('#classSection'); const subjectSelect = $('#subjectName');
   const parentView = new URLSearchParams(location.search).get('view') === 'parent';
-  const parentGradeSelect = $('#parentGrade');
+  const parentClassSelect = $('#parentClass');
   let bookings = [];
   let monthCursor = new Date(); monthCursor.setDate(1);
   let selectedISO = '';
@@ -485,6 +485,8 @@
     }
   });
 
+
+  classSelect.querySelectorAll('optgroup').forEach(group => { const parentGroup=document.createElement('optgroup'); parentGroup.label=group.label; [...group.options].forEach(option=>parentGroup.append(option.cloneNode(true))); parentClassSelect.append(parentGroup); });
 
   const isoIsHoliday = (iso) => { const day = new Date(`${iso}T12:00:00`).getDay(); return day === 5 || day === 6; };
   const isPast = (iso) => iso < todayISO();
@@ -530,8 +532,8 @@
       const iso = `${dayDate.getFullYear()}-${String(dayDate.getMonth()+1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2,'0')}`;
       const holiday = isoIsHoliday(iso), past = isPast(iso), dayBookings = allForDay(iso);
       const selectedClass = classSelect.value;
-      const parentGrade = parentView ? parentGradeSelect.value : '';
-      const targetBooked = parentView ? Boolean(parentGrade && dayBookings.some(b => b.class_section.startsWith(parentGrade + '/'))) : selectedClass ? bookedClassOn(iso, selectedClass) : dayBookings.length > 0;
+      const parentClass = parentView ? parentClassSelect.value : '';
+      const targetBooked = parentView ? Boolean(parentClass && dayBookings.some(b => b.class_section === parentClass)) : selectedClass ? bookedClassOn(iso, selectedClass) : dayBookings.length > 0;
       const button = document.createElement('button'); button.type = 'button'; button.className = 'day'; button.setAttribute('role','gridcell');
       if (other) button.classList.add('other-month');
       if (past) button.classList.add('past');
@@ -557,10 +559,10 @@
     const host = $('#selectedDay');
     if (!selectedISO) { host.classList.add('hidden'); return; }
     const dayItems = allForDay(selectedISO);
-    const visibleItems = parentView ? (parentGradeSelect.value ? dayItems.filter(b => b.class_section.startsWith(parentGradeSelect.value + '/')) : []) : classSelect.value ? dayItems.filter(b => b.class_section === classSelect.value) : dayItems;
+    const visibleItems = parentView ? (parentClassSelect.value ? dayItems.filter(b => b.class_section === parentClassSelect.value) : []) : classSelect.value ? dayItems.filter(b => b.class_section === classSelect.value) : dayItems;
     const details = visibleItems.length
       ? `<ul class="selected-day-list">${visibleItems.map(b => `<li class="selected-day-item"><strong>${escapeHTML(b.class_section)}</strong><span>${escapeHTML(b.subject_name || 'غير محدد')} · الأستاذ ${escapeHTML(b.teacher_name)}</span></li>`).join('')}</ul>`
-      : `<small>${parentView ? (parentGradeSelect.value ? 'لا توجد اختبارات محددة لهذا الصف في هذا اليوم.' : 'اختر الصف أولاً لعرض مواعيد الاختبارات.') : classSelect.value ? `الشعبة ${escapeHTML(classSelect.value)} متاحة في هذا اليوم.` : 'لا توجد حجوزات في هذا اليوم.'}</small>`;
+      : `<small>${parentView ? (parentClassSelect.value ? 'لا توجد اختبارات محددة لهذه الشعبة في هذا اليوم.' : 'اختر الصف والشعبة أولاً لعرض مواعيد الاختبارات.') : classSelect.value ? `الشعبة ${escapeHTML(classSelect.value)} متاحة في هذا اليوم.` : 'لا توجد حجوزات في هذا اليوم.'}</small>`;
     host.classList.remove('hidden');
     host.innerHTML = `<div class="selected-day-head"><span class="selected-icon">▦</span><div><strong>${fmtDate(selectedISO)}</strong><small>${visibleItems.length ? 'تفاصيل الحجوزات في اليوم المحدد' : 'حالة اليوم المحدد'}</small></div></div>${details}`;
   };
@@ -635,7 +637,7 @@
     $('.school-title .eyebrow').textContent = 'تقويم الاختبارات لأولياء الأمور';
     $('.school-title p').textContent = 'اختر صف ابنك لمتابعة مواعيد الاختبارات';
     $('.legend').innerHTML = '<span><i class="dot dot-booked"></i> يوم محدد فيه اختبار</span><span><i class="dot dot-holiday"></i> إجازة أسبوعية</span>';
-    parentGradeSelect.addEventListener('change', () => { selectedISO = ''; renderSelectedDay(); drawCalendar(); });
+    parentClassSelect.addEventListener('change', () => { selectedISO = ''; renderSelectedDay(); drawCalendar(); });
   }
   $('#examDate').min = todayISO();
   $('#examDate').addEventListener('change', (event) => {
