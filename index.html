@@ -1,3 +1,361 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,7 +370,8 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;font-size:15px;line-height:1.65}.shell{width:min(1160px,calc(100% - 32px));margin:24px auto 32px;background:#fbfcfc;border:1px solid #e8edee;border-radius:26px;overflow:hidden;box-shadow:0 16px 46px rgba(31,67,75,.08)}.site-header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;background:white;border-bottom:1px solid #eff2f3}.brand-lockup{display:flex;align-items:center;gap:11px}.brand-lockup strong{display:block;color:#152d43;font-size:17px;line-height:1.25}.brand-lockup span{display:block;font-size:11px;color:#85919b}.emblem{width:48px;height:48px;display:grid;place-items:center;border:1px solid #f1dcdc;border-radius:50%;background:#fff9f8}.emblem img{width:46px;height:46px;object-fit:contain;border-radius:50%}.header-actions{display:flex;align-items:center;gap:15px}.term-pill{font-size:12px;color:#647587;background:#f2f6f6;border:1px solid #e8eeee;border-radius:30px;padding:6px 12px}.term-pill i,.demo-status i{display:inline-block;width:7px;height:7px;background:#25a879;border-radius:50%;margin-left:5px}.icon-button{border:0;background:transparent;color:#456078;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:26px;cursor:pointer}.icon-button svg{width:18px;height:18px;fill:currentColor}.icon-button:hover{background:#f0f5f4}.hero{min-height:184px;background:linear-gradient(105deg,#edf9f7 0%,#f8fcfb 57%,#e7f5f1 100%);position:relative;padding:34px 42px;overflow:hidden;display:flex;align-items:center;justify-content:space-between}.hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(13,128,102,.09);border-radius:50%;width:270px;height:270px;top:-169px;left:27%}.hero:after{width:360px;height:360px;top:87px;left:62%;border-color:rgba(13,128,102,.07)}.hero-pattern{position:absolute;inset:0;background-image:radial-gradient(rgba(13,128,102,.15) .8px,transparent .8px);background-size:17px 17px;mask-image:linear-gradient(90deg,transparent 30%,black 75%);opacity:.24}.school-title,.hero-mark{position:relative;z-index:1}.eyebrow,.section-kicker{font-size:12px;font-weight:600;color:var(--green);letter-spacing:.2px}.school-title h1{margin:4px 0 0;font-size:29px;line-height:1.4}.school-title p{color:#697a87;margin:2px 0 0;font-size:15px}.hero-mark{display:flex;gap:9px;align-items:center;direction:ltr}.hero-mark span{height:50px;width:50px;border-radius:17px;display:grid;place-items:center;background:rgba(255,255,255,.72);color:var(--green);font-size:18px;font-weight:700;border:1px solid rgba(13,128,102,.12);box-shadow:0 6px 16px rgba(13,128,102,.06)}.dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:22px 28px 16px}.stat-card{min-height:104px;background:white;border:1px solid var(--line);border-radius:16px;padding:15px 18px;display:flex;align-items:center;gap:15px;box-shadow:0 3px 10px rgba(20,50,63,.025)}.stat-icon{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center}.stat-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.stat-red .stat-icon{background:var(--red-bg);color:var(--red)}.stat-blue .stat-icon{background:var(--blue-bg);color:var(--blue)}.stat-green .stat-icon{background:var(--mint);color:var(--green)}.stat-label{display:block;color:#617181;font-size:12px}.stat-card strong{font-size:24px;line-height:1.25;display:inline-block;margin-left:7px}.stat-card small{color:#87939d;font-size:11px}.tabs{display:flex;gap:5px;margin:3px 28px 17px;border-bottom:1px solid var(--line)}.tab{border:0;background:transparent;color:#748391;padding:10px 17px 12px;cursor:pointer;font:inherit;font-weight:600;font-size:13px;position:relative}.tab span{font-size:17px;margin-left:5px}.tab.active{color:var(--green)}.tab.active:after{content:"";position:absolute;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--green);left:13px;right:13px}.content-grid{padding:0 28px 18px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,.95fr);gap:18px;align-items:start}.main-column{display:grid;gap:16px}.panel{border-radius:18px;border:1px solid var(--line);background:white;box-shadow:0 5px 16px rgba(20,50,63,.035)}.calendar-panel{padding:20px 20px 16px}.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.panel-heading h2,.booking-heading h2{font-size:18px;margin:1px 0 0;line-height:1.35}.month-controls{display:flex;align-items:center;gap:8px}.month-controls strong{min-width:130px;text-align:center;font-size:14px}.icon-button.light{width:32px;height:32px;border:1px solid #e9eeee;border-radius:10px;font-size:22px;color:#526b7b}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;direction:rtl}.weekday{padding:4px 0;text-align:center;color:#788693;font-size:11px;font-weight:600}.day{min-height:53px;border:1px solid transparent;border-radius:11px;background:#eff8f3;color:#24694f;font:inherit;font-size:13px;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;position:relative;transition:.15s}.day:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,80,60,.1)}.day.other-month{background:#f5f7f8;color:#b5bec4;cursor:default}.day.past{background:#f5f7f8;color:#b5bec4;cursor:default}.day.holiday{background:#fff6db;color:#9b7d31;cursor:not-allowed}.day.booked{background:var(--red-bg);color:#b93942}.day.selected{outline:2px solid var(--green);outline-offset:1px}.day.today{box-shadow:inset 0 0 0 1px var(--green)}.day-number{font-weight:600}.day-sub{font-size:8px;line-height:1.2;min-height:10px}.legend{display:flex;gap:19px;align-items:center;justify-content:center;margin:15px 0 12px;color:#657582;font-size:11px;flex-wrap:wrap}.legend span{display:flex;align-items:center;gap:6px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.dot-open{background:#3ab98b}.dot-booked{background:#e44e57}.dot-holiday{background:#f1c85d}.selected-day{display:flex;align-items:center;gap:12px;border:1px solid #edf1f2;background:#fbfcfc;padding:11px 13px;border-radius:13px}.selected-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#eaf5f0;color:var(--green);font-size:19px}.selected-day strong,.selected-day small{display:block}.selected-day strong{font-size:12px}.selected-day small{font-size:10px;color:#82909a}.booking-panel{padding:22px 21px}.booking-heading{display:flex;align-items:center;gap:12px}.form-icon{width:43px;height:43px;border-radius:13px;background:var(--green);color:white;display:grid;place-items:center;font-size:26px;font-weight:400}.form-intro{font-size:12px;color:#75838e;margin:13px 0 17px}.booking-panel label,.admin-form label{display:block;font-size:12px;font-weight:600;margin:12px 0 5px;color:#344b5e}.booking-panel label b{color:#d94d55}.booking-panel input,.booking-panel select,.admin-form input{height:43px;width:100%;border:1px solid #dfe6e8;border-radius:11px;background:#fff;color:#253c50;padding:0 12px;font:inherit;font-size:13px;outline:none}.booking-panel input:focus,.booking-panel select:focus,.admin-form input:focus{border-color:#69b69e;box-shadow:0 0 0 3px rgba(13,128,102,.1)}input[type=date]{direction:rtl}.field-hint{font-size:10px;color:#8a969f;margin-top:5px}.primary-button{width:100%;height:47px;border:0;border-radius:12px;background:var(--green);color:white;font:inherit;font-size:14px;font-weight:700;margin-top:15px;cursor:pointer;box-shadow:0 5px 12px rgba(13,128,102,.16);transition:background .15s}.primary-button:hover{background:#096c56}.primary-button:disabled{opacity:.55;cursor:wait}.primary-button span{font-size:18px;margin-right:7px}.simple-note{display:flex;gap:9px;align-items:flex-start;border-radius:12px;background:#f3f8f7;padding:10px 11px;margin-top:14px;color:#537264}.simple-note span{font-size:16px}.simple-note p{margin:0;font-size:10px;line-height:1.7}.bookings-panel{padding:18px 19px}.bookings-panel .panel-heading{margin-bottom:9px}.text-button{border:0;background:transparent;color:var(--green);font:inherit;font-size:11px;font-weight:600;cursor:pointer}.recent-list{display:grid;gap:7px}.recent-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 11px;border:1px solid #edf1f2;border-radius:11px}.recent-main{min-width:0}.recent-main strong{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.recent-main small{font-size:10px;color:#818e98}.recent-date{color:#b43e46;background:#fff0ef;border-radius:8px;padding:4px 7px;font-size:10px;white-space:nowrap}.empty-list{color:#89959e;text-align:center;padding:15px;font-size:12px}.how-it-works{display:flex;align-items:center;gap:12px;margin:0 28px 23px;padding:14px 16px;background:#f1f8f5;border:1px solid #e0eee8;border-radius:14px}.info-badge{width:25px;height:25px;flex:none;border-radius:50%;display:grid;place-items:center;background:#dcefe7;color:var(--green);font-weight:700}.how-it-works h3{font-size:12px;margin:0}.how-it-works p{font-size:10px;color:#6f807b;margin:1px 0 0}.demo-status{margin-right:auto;font-size:10px;color:#73827d;white-space:nowrap}.demo-status i{background:#dba93f}footer{border-top:1px solid #edf0f1;padding:14px 28px;background:white;display:flex;justify-content:space-between;color:#8a969f;font-size:10px}.dialog{border:0;border-radius:20px;padding:27px;width:min(440px,calc(100% - 24px));box-shadow:0 25px 80px rgba(17,42,55,.25);color:var(--ink)}.dialog::backdrop{background:rgba(21,39,50,.42);backdrop-filter:blur(3px)}.dialog-close-form{position:absolute;top:11px;left:12px}.close-dialog{border:0;background:#f1f4f4;color:#677984;border-radius:50%;width:31px;height:31px;font-size:22px;cursor:pointer}.dialog-icon{width:47px;height:47px;border-radius:14px;background:#eaf5f0;color:var(--green);display:grid;place-items:center;font-size:27px}.dialog h2{font-size:19px;margin:11px 0 3px}.dialog>p{font-size:12px;color:#77858f;margin:0 0 17px}.admin-form label{margin-top:10px}.admin-form .primary-button{margin-top:18px}.admin-message{font-size:11px;margin-top:9px;color:#687b86}.admin-message.error{color:#bd3c45}.admin-message.success{color:#147657}.secondary-button{width:100%;border:1px solid #dce7e3;background:white;color:var(--green);border-radius:10px;padding:9px;font:inherit;font-size:12px;font-weight:600;margin-top:10px;cursor:pointer}.hidden{display:none!important}.admin-bookings{margin-top:12px;max-height:240px;overflow:auto}.admin-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid #edf0f1;font-size:11px}.cancel-button{border:0;background:#fff0ef;color:#bd3d45;border-radius:8px;padding:5px 8px;font:inherit;font-size:10px;cursor:pointer}.toast{position:fixed;z-index:10;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#173a34;color:white;padding:11px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.16);font-size:12px;transition:.22s}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:#9d3038}
 @media(max-width:800px){.shell{width:min(100% - 18px,610px);margin:9px auto 20px;border-radius:20px}.site-header{padding:0 17px;height:64px}.term-pill{display:none}.hero{min-height:160px;padding:28px 22px}.school-title h1{font-size:23px}.school-title p{font-size:13px}.hero-mark span{width:39px;height:39px;border-radius:13px;font-size:14px}.dashboard{padding:15px 15px 12px;gap:8px}.stat-card{padding:12px 9px;min-height:94px;gap:8px;border-radius:13px}.stat-icon{width:36px;height:36px;border-radius:11px}.stat-icon svg{width:19px;height:19px}.stat-card strong{font-size:20px}.stat-label{font-size:10px}.stat-card small{font-size:9px}.tabs{margin:3px 15px 13px}.tab{padding:8px 12px 11px;font-size:12px}.content-grid{padding:0 15px 15px;grid-template-columns:1fr;gap:13px}.booking-panel{grid-row:1}.calendar-panel{padding:16px 13px 13px}.bookings-panel{padding:16px}.day{min-height:46px;border-radius:9px;font-size:12px}.weekday{font-size:9px}.calendar{gap:4px}.month-controls strong{min-width:104px;font-size:12px}.legend{gap:12px;font-size:10px}.booking-panel{padding:18px}.how-it-works{margin:0 15px 17px;align-items:flex-start}.demo-status{display:none}footer{padding:13px 16px;font-size:9px}}@media(max-width:400px){.hero-mark{gap:5px}.hero-mark span{width:34px;height:34px}.stat-card{gap:6px;padding:10px 7px}.stat-icon{width:31px;height:31px}.stat-card strong{font-size:18px}.stat-card small{display:block}.calendar{gap:3px}.day{min-height:41px}.legend{gap:8px}.school-title h1{font-size:20px}}
 
-  .selected-day{display:block}.selected-day-head{display:flex;align-items:center;gap:12px}.selected-day-list{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:7px}.selected-day-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border:1px solid #edf1f2;border-radius:10px;background:#fff}.selected-day-item strong{font-size:11px;color:#344b5e}.selected-day-item span{font-size:11px;color:#687b86}
+
+  .parent-filter{margin:0 0 16px;padding:14px;border:1px solid #e4efea;border-radius:13px;background:#f7fbf9}.parent-filter label{display:block;margin-bottom:6px;font-size:13px;font-weight:700}.parent-filter select{width:100%;height:44px;border:1px solid #dfe6e8;border-radius:10px;background:#fff;padding:0 12px;font:inherit;color:var(--ink)}body.parent-view #adminOpen,body.parent-view .dashboard,body.parent-view .tabs,body.parent-view #bookingPanel,body.parent-view .how-it-works{display:none!important}body.parent-view .content-grid{grid-template-columns:1fr}body.parent-view .calendar-panel{max-width:850px;width:100%;margin:0 auto}.parent-filter{display:none}.selected-day{display:block}.selected-day-head{display:flex;align-items:center;gap:12px}.selected-day-list{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:7px}.selected-day-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border:1px solid #edf1f2;border-radius:10px;background:#fff}.selected-day-item strong{font-size:11px;color:#344b5e}.selected-day-item span{font-size:11px;color:#687b86}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>window.APP_CONFIG = { supabaseUrl: "https://uoajkpmsfzasebxybavh.supabase.co", supabaseAnonKey: "sb_publishable_YD6LG4lRedC9wU1AyigWLw_bpeuXnqf" };</script>
@@ -30,6 +389,7 @@
       </div>
     </header>
 
+
     <main>
       <section class="hero">
         <div class="hero-pattern" aria-hidden="true"></div>
@@ -37,23 +397,27 @@
         <div class="hero-mark" aria-hidden="true"><span>١٠</span><span>١١</span><span>١٢</span></div>
       </section>
 
+
       <section class="dashboard" aria-label="ملخص الحجوزات">
         <article class="stat-card stat-red"><div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M7 2v3m10-3v3M3 8h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Zm2 8h4v4H7z"/></svg></div><div><span class="stat-label">اختبارات اليوم</span><strong id="todayCount">٠</strong><small id="todayLabel">لا توجد اختبارات محجوزة</small></div></article>
         <article class="stat-card stat-blue"><div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M7 2v3m10-3v3M3 8h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Zm3 8h3m2 0h3m-8 4h3m2 0h3"/></svg></div><div><span class="stat-label">الحجوزات القادمة</span><strong id="upcomingCount">٠</strong><small>لجميع الشعب</small></div></article>
         <article class="stat-card stat-green"><div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m7-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm13 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><span class="stat-label">الشعب المتاحة</span><strong id="availableCount">٣٤</strong><small>من أصل ٣٤ شعبة</small></div></article>
       </section>
 
+
       <nav class="tabs" aria-label="التنقل"><button class="tab active" data-tab="home" type="button"><span>⌂</span> الرئيسية</button><button class="tab" data-tab="calendar" type="button"><span>▦</span> التقويم</button></nav>
+
 
       <section class="content-grid">
         <div class="main-column">
           <section class="panel calendar-panel" id="calendarPanel">
-            <div class="panel-heading"><div><span class="section-kicker">مواعيد الاختبارات</span><h2>تقويم الحجوزات</h2></div><div class="month-controls"><button id="prevMonth" class="icon-button light" type="button" aria-label="الشهر السابق">‹</button><strong id="monthTitle"></strong><button id="nextMonth" class="icon-button light" type="button" aria-label="الشهر التالي">›</button></div></div>
+            <div class="parent-filter"><label for="parentGrade">اختر صف ابنك</label><select id="parentGrade"><option value="">اختر الصف</option><option value="10">الصف العاشر</option><option value="11">الصف الحادي عشر</option><option value="12">الصف الثاني عشر</option></select><small>ستظهر مواعيد الاختبارات المحددة لهذا الصف.</small></div><div class="panel-heading"><div><span class="section-kicker">مواعيد الاختبارات</span><h2>تقويم الحجوزات</h2></div><div class="month-controls"><button id="prevMonth" class="icon-button light" type="button" aria-label="الشهر السابق">‹</button><strong id="monthTitle"></strong><button id="nextMonth" class="icon-button light" type="button" aria-label="الشهر التالي">›</button></div></div>
             <div class="calendar" id="calendar" role="grid" aria-label="تقويم الاختبارات"></div>
             <div class="legend"><span><i class="dot dot-open"></i> متاح للحجز</span><span><i class="dot dot-booked"></i> محجوز</span><span><i class="dot dot-holiday"></i> إجازة أسبوعية</span></div>
             <div class="selected-day hidden" id="selectedDay"><span class="selected-icon">▦</span><div><strong>اختر يوماً من التقويم</strong><small>سيظهر هنا ملخص حجوزات اليوم</small></div></div>
           </section>
         </div>
+
 
         <aside class="panel booking-panel" id="bookingPanel">
           <div class="booking-heading"><div class="form-icon">＋</div><div><span class="section-kicker">احجز موعداً</span><h2>حجز اختبار قصير</h2></div></div>
@@ -71,10 +435,12 @@
         </aside>
       </section>
 
+
       <section class="how-it-works"><div class="info-badge">i</div><div><h3>طريقة الحجز</h3><p>اختر يوماً متاحاً باللون الأخضر، ثم أدخل اسمك وحدد الصف والشعبة. لن يسمح النظام بحجز الشعبة نفسها مرتين في اليوم.</p></div><div class="demo-status" id="connectionStatus"><i></i><span>جارٍ التحقق من الاتصال…</span></div></section>
     </main>
     <footer><span>مدرسة أبو عبيدة للبنين · الصفوف ١٠–١٢</span><span>نظام حجز الاختبارات القصيرة</span></footer>
   </div>
+
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog id="adminDialog" class="dialog">
@@ -99,6 +465,8 @@
   const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
   const classesByGrade = { 10: 11, 11: 12, 12: 11 };
   const classSelect = $('#classSection'); const subjectSelect = $('#subjectName');
+  const parentView = new URLSearchParams(location.search).get('view') === 'parent';
+  const parentGradeSelect = $('#parentGrade');
   let bookings = [];
   let monthCursor = new Date(); monthCursor.setDate(1);
   let selectedISO = '';
@@ -106,6 +474,7 @@
   let supabase = null;
   let adminSession = false;
   let refreshTimer;
+
 
   Object.entries(classesByGrade).forEach(([grade, count]) => {
     const group = $(`#grade${grade}`);
@@ -115,6 +484,7 @@
       group.append(opt);
     }
   });
+
 
   const isoIsHoliday = (iso) => { const day = new Date(`${iso}T12:00:00`).getDay(); return day === 5 || day === 6; };
   const isPast = (iso) => iso < todayISO();
@@ -160,7 +530,8 @@
       const iso = `${dayDate.getFullYear()}-${String(dayDate.getMonth()+1).padStart(2,'0')}-${String(dayDate.getDate()).padStart(2,'0')}`;
       const holiday = isoIsHoliday(iso), past = isPast(iso), dayBookings = allForDay(iso);
       const selectedClass = classSelect.value;
-      const targetBooked = selectedClass ? bookedClassOn(iso, selectedClass) : dayBookings.length > 0;
+      const parentGrade = parentView ? parentGradeSelect.value : '';
+      const targetBooked = parentView ? Boolean(parentGrade && dayBookings.some(b => b.class_section.startsWith(parentGrade + '/'))) : selectedClass ? bookedClassOn(iso, selectedClass) : dayBookings.length > 0;
       const button = document.createElement('button'); button.type = 'button'; button.className = 'day'; button.setAttribute('role','gridcell');
       if (other) button.classList.add('other-month');
       if (past) button.classList.add('past');
@@ -168,9 +539,9 @@
       if (targetBooked) button.classList.add('booked');
       if (iso === selectedISO) button.classList.add('selected');
       if (iso === todayISO()) button.classList.add('today');
-      const dayStatus = holiday ? 'إجازة' : selectedClass ? (targetBooked ? 'محجوز' : 'متاح') : (dayBookings.length ? `${arDigits(dayBookings.length)} حجز` : '');
+      const dayStatus = holiday ? 'إجازة' : parentView ? (targetBooked ? 'اختبار' : '') : selectedClass ? (targetBooked ? 'محجوز' : 'متاح') : (dayBookings.length ? `${arDigits(dayBookings.length)} حجز` : '');
       button.innerHTML = `<span class="day-number">${arDigits(dayDate.getDate())}</span><span class="day-sub">${dayStatus}</span>`;
-      button.setAttribute('aria-label', `${fmtDate(iso)}${holiday ? '، إجازة أسبوعية' : selectedClass ? (targetBooked ? `، محجوز للشعبة ${selectedClass}` : `، متاح للشعبة ${selectedClass}`) : dayBookings.length ? `، ${dayBookings.length} حجز` : '، متاح'}`);
+      button.setAttribute('aria-label', `${fmtDate(iso)}${holiday ? '، إجازة أسبوعية' : parentView ? (targetBooked ? '، يوجد اختبار' : '، لا يوجد اختبار محدد') : selectedClass ? (targetBooked ? `، محجوز للشعبة ${selectedClass}` : `، متاح للشعبة ${selectedClass}`) : dayBookings.length ? `، ${dayBookings.length} حجز` : '، متاح'}`);
       button.disabled = other || past || holiday;
       if (!button.disabled) button.addEventListener('click', () => chooseDate(iso));
       root.append(button);
@@ -186,15 +557,16 @@
     const host = $('#selectedDay');
     if (!selectedISO) { host.classList.add('hidden'); return; }
     const dayItems = allForDay(selectedISO);
-    const visibleItems = classSelect.value ? dayItems.filter(b => b.class_section === classSelect.value) : dayItems;
+    const visibleItems = parentView ? (parentGradeSelect.value ? dayItems.filter(b => b.class_section.startsWith(parentGradeSelect.value + '/')) : []) : classSelect.value ? dayItems.filter(b => b.class_section === classSelect.value) : dayItems;
     const details = visibleItems.length
       ? `<ul class="selected-day-list">${visibleItems.map(b => `<li class="selected-day-item"><strong>${escapeHTML(b.class_section)}</strong><span>${escapeHTML(b.subject_name || 'غير محدد')} · الأستاذ ${escapeHTML(b.teacher_name)}</span></li>`).join('')}</ul>`
-      : `<small>${classSelect.value ? `الشعبة ${escapeHTML(classSelect.value)} متاحة في هذا اليوم.` : 'لا توجد حجوزات في هذا اليوم.'}</small>`;
+      : `<small>${parentView ? (parentGradeSelect.value ? 'لا توجد اختبارات محددة لهذا الصف في هذا اليوم.' : 'اختر الصف أولاً لعرض مواعيد الاختبارات.') : classSelect.value ? `الشعبة ${escapeHTML(classSelect.value)} متاحة في هذا اليوم.` : 'لا توجد حجوزات في هذا اليوم.'}</small>`;
     host.classList.remove('hidden');
     host.innerHTML = `<div class="selected-day-head"><span class="selected-icon">▦</span><div><strong>${fmtDate(selectedISO)}</strong><small>${visibleItems.length ? 'تفاصيل الحجوزات في اليوم المحدد' : 'حالة اليوم المحدد'}</small></div></div>${details}`;
   };
   const refreshView = () => { updateStats(); drawCalendar(); renderSelectedDay(); if (adminSession) renderAdminBookings(); };
   const escapeHTML = (str='') => String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
 
   async function loadBookings() {
     const config = window.APP_CONFIG || {};
@@ -256,6 +628,15 @@
     finally { button.disabled = false; button.innerHTML = 'تأكيد الحجز <span>✓</span>'; }
   });
   classSelect.addEventListener('change', () => { drawCalendar(); renderSelectedDay(); });
+  if (parentView) {
+    document.body.classList.add('parent-view');
+    $('.parent-filter').style.display = 'block';
+    document.title = 'تقويم الاختبارات لأولياء الأمور | مدرسة أبو عبيدة';
+    $('.school-title .eyebrow').textContent = 'تقويم الاختبارات لأولياء الأمور';
+    $('.school-title p').textContent = 'اختر صف ابنك لمتابعة مواعيد الاختبارات';
+    $('.legend').innerHTML = '<span><i class="dot dot-booked"></i> يوم محدد فيه اختبار</span><span><i class="dot dot-holiday"></i> إجازة أسبوعية</span>';
+    parentGradeSelect.addEventListener('change', () => { selectedISO = ''; renderSelectedDay(); drawCalendar(); });
+  }
   $('#examDate').min = todayISO();
   $('#examDate').addEventListener('change', (event) => {
     const date = event.target.value;
@@ -271,6 +652,7 @@
     else if (currentTab === 'bookings') $('#bookingsPanel').scrollIntoView({behavior:'smooth',block:'start'});
     else window.scrollTo({top:0,behavior:'smooth'});
   }));
+
 
   const dialog = $('#adminDialog');
   $('#adminOpen').addEventListener('click', async () => {
@@ -353,7 +735,7 @@
   loadBookings();
 })();
 
+
   </script>
 </body>
 </html>
-
